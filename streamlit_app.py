@@ -1,4 +1,5 @@
 import streamlit as st
+import numpy as np
 import pandas as pd
 import joblib
 from sklearn.metrics import r2_score, mean_squared_error
@@ -11,7 +12,7 @@ st.image("assets/odaso.jpeg", caption="Water treatment at Odaso, GH", use_column
 
 @st.cache_resource
 def load_model():
-    return joblib.load("random_forest_pipeline.joblib")
+    return joblib.load("ml_pipeline.joblib")
 
 model = load_model()
 
@@ -20,10 +21,10 @@ st.subheader("Model performance")
 @st.cache_data
 def compute_metrics():
     # Load the same data used for training/evaluation
-    df = pd.read_csv("water_quality_cleaned.csv")
+    df = pd.read_csv("/assets/water_quality_cleaned.csv")
 
-    feature_cols = ["year", "month", "ph", "turbidity", "conductivity", "temperature"]
-    target_col = "coagulant_dosage"
+    feature_cols = ['year', 'month', 'day', 'dayofweek', 'quarter', "ph", "turbidity", "conductivity", "temperature"]
+    target_col = "coagulant_dosage_log"
 
     X = df[feature_cols]
     y = df[target_col]
@@ -47,22 +48,39 @@ with col2:
 
 st.subheader("Enter water quality values")
 
-year = st.number_input("Year", min_value=1900, max_value=2100, value=2026, step=1)
-month = st.number_input("Month", min_value=1, max_value=12, value=7, step=1)
+# Date picker
+selected_date = st.date_input("Select Date")
+
+# Other inputs
 ph = st.number_input("pH", value=7.0, format="%.2f")
 turbidity = st.number_input("Turbidity (NTU)", value=0.0, format="%.2f")
 conductivity = st.number_input("Conductivity (µS/cm)", value=0.0, format="%.2f")
 temperature = st.number_input("Temperature (°C)", value=25.0, format="%.2f")
 
+# Create DataFrame
 input_df = pd.DataFrame([{
-    "year": year,
-    "month": month,
+    "date": pd.to_datetime(selected_date),
     "ph": ph,
     "turbidity": turbidity,
     "conductivity": conductivity,
     "temperature": temperature
 }])
 
+# Set date as index
+input_df.set_index("date", inplace=True)
+
+# Extract date features
+input_df["year"] = input_df.index.year
+input_df["month"] = input_df.index.month
+input_df["day"] = input_df.index.day
+input_df["dayofweek"] = input_df.index.dayofweek    # Monday=0, Sunday=6
+input_df["quarter"] = input_df.index.quarter
+
+input_df = input_df[['year', 'month', 'day', 'dayofweek', 'quarter', 'ph', 'turbidity',
+                       'conductivity', 'temperature']]
+
+
 if st.button("Predict"):
     prediction = model.predict(input_df)[0]
+    prediction = np.exp(prediction) # convert coagulant dosage from log scale to actual values
     st.success(f"Predicted coagulant dosage (kg/day): {prediction:.3f}")
