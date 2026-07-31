@@ -21,7 +21,7 @@ st.subheader("Model performance")
 @st.cache_data
 def compute_metrics():
     # Load the same data used for training/evaluation
-    df = pd.read_csv("/assets/water_quality_cleaned.csv")
+    df = pd.read_csv("assets/water_quality_cleaned.csv")
 
     feature_cols = ['year', 'month', 'day', 'dayofweek', 'quarter', "ph", "turbidity", "conductivity", "temperature"]
     target_col = "coagulant_dosage_log"
