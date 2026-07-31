@@ -44,7 +44,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.metric("R² score", f"{r2:.3f}")
 with col2:
-    st.metric("RMSE (kg/day)", f"{rmse:.3f}")
+    st.metric("RMSE (kg/day)", f"{np.exp(rmse):.3f}")
 
 st.subheader("Enter water quality values")
 
