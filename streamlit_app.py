@@ -83,4 +83,4 @@ input_df = input_df[['year', 'month', 'day', 'dayofweek', 'quarter', 'ph', 'turb
 if st.button("Predict"):
     prediction = model.predict(input_df)[0]
     prediction = np.exp(prediction) # convert coagulant dosage from log scale to actual values
-    st.success(f"Predicted coagulant dosage (kg/day): {prediction:.3f}")
+    st.success(f"Predicted coagulant dosage (kg/day): {prediction:.0f}")
