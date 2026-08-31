@@ -1,6 +1,6 @@
 ![Water quality](https://cdn-icons-png.flaticon.com/512/11707/11707251.png)
 
-Accra, Ghana’s vibrant capital and a fast-growing city. Water is life, but supplying safe drinking water is becoming more difficult as raw water sources face increasing pressure from pollution, mining activities, and changing environmental conditions.
+Kumasi, Ghana’s fastest growing city had been faced with a number of water challenges. Water is life, but supplying safe drinking water is becoming more difficult as raw water sources face increasing pressure from pollution, mining activities, and changing environmental conditions.
 
 In this project, you will support the Odaso Water Treatment Plant by analyzing raw water quality data from the Oda River. The goal is to identify patterns in turbidity, pH, temperature, and alkalinity, then build a predictive model that can help determine the optimal coagulant dosage for more efficient and cost-effective treatment.
 
