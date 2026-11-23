@@ -4,11 +4,22 @@ import pandas as pd
 import joblib
 from sklearn.metrics import r2_score, mean_squared_error
 import numpy as np
+from pathlib import Path
 
 st.title("Water Quality Prediction App")
 
-# Display local image (relative path from app.py)
-st.image("assets/plant_picture.jpeg", caption="Water treatment at Odaso, GH", use_column_width=True)  # [1]
+# Get the directory where streamlit_app.py is located
+BASE_DIR = Path(__file__).resolve().parent
+
+# Construct the absolute path to the image
+image_path = BASE_DIR / "assets" / "plant_picture.jpeg"
+
+# Display image
+st.image(
+    str(image_path),
+    caption="Water treatment at Odaso, GH",
+    use_container_width=True
+)
 
 @st.cache_resource
 def load_model():
@@ -46,7 +57,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.metric("R² score", f"{r2:.3f}")
 with col2:
-    st.metric("RMSE (kg/day)", f"{np.exp(rmse):.3f}")
+    st.metric("RMSE (kg/day)", f"{rmse:.3f}")
 
 st.subheader("Enter water quality values")
 
