@@ -8,7 +8,7 @@ import numpy as np
 st.title("Water Quality Prediction App")
 
 # Display local image (relative path from app.py)
-st.image("assets/odaso.jpeg", caption="Water treatment at Odaso, GH", use_column_width=True)  # [1]
+st.image("assets/plant_picture.jpeg", caption="Water treatment at Odaso, GH", use_column_width=True)  # [1]
 
 @st.cache_resource
 def load_model():
